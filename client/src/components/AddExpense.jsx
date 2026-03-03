@@ -13,7 +13,7 @@ function AddExpense({ close, refresh, setBalance }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await API.post("/expense", form);
+    const res = await API.post("/api/expense", form);
     setBalance(res.data.currentBalance);
     refresh();
     close();

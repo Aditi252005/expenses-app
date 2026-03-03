@@ -6,7 +6,7 @@ function ExpenseItem({ item, refresh, setBalance }) {
 
   const handleDelete = async () => {
     try {
-      const res = await API.delete(`/expense/${item._id}`);
+      const res = await API.delete(`/api/expense/${item._id}`);
       setBalance(res.data.balance);
       refresh();
     } catch (err) {

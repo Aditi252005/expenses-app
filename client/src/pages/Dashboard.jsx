@@ -34,7 +34,7 @@ function Dashboard() {
 
   const fetchExpenses = async () => {
     try {
-      const res = await API.get("/expense");
+      const res = await API.get("/api/expense");
       setExpenses(res.data);
     } catch (err) {
       console.log(err);
@@ -44,7 +44,7 @@ function Dashboard() {
   const handleSummary = async () => {
     try {
         const res = await API.get(
-        `/expense/summary?start=${startDate}&end=${endDate}`
+        `/api/expense/summary?start=${startDate}&end=${endDate}`
         );
         setTotalSpent(res.data.totalSpent);
     } catch (err) {
