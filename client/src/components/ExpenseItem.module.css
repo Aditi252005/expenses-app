@@ -1,0 +1,68 @@
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+}
+
+/* Left side */
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 600;
+  color: #444;
+  font-size: 15px;
+}
+
+.date {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Right side */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.amount {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.expense {
+  color: #ff6b81;
+}
+
+.income {
+  color: #2ed573;
+}
+
+.actionBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+  color: #616060;
+  transition: 0.2s;
+}
+
+.actionBtn:hover {
+  color: #333;
+}
