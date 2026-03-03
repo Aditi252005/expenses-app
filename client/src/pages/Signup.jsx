@@ -14,8 +14,8 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await API.post("/auth/signup", form);
-    navigate("/");
+    await API.post("api/auth/signup", form);
+    navigate("/login");
   };
 
   return (
@@ -61,7 +61,7 @@ function Signup() {
 
         <div className={styles.footer}>
           Already have an account?{" "}
-          <span onClick={() => navigate("/")}>
+          <span onClick={() => navigate("/login")}>
             Login
           </span>
         </div>
