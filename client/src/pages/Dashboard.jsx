@@ -29,8 +29,8 @@ function Dashboard() {
 
   useEffect(() => {
     if (!user) navigate("/");
-    fetchExpenses();
-  }, []);
+    else fetchExpenses();
+  }, [user]);
 
   const fetchExpenses = async () => {
     try {
