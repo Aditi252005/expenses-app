@@ -30,7 +30,13 @@ function Signup() {
       alert("Account created successfully!");
       navigate("/login");
     } catch (err) {
-      alert(err.response?.data?.msg || "Signup failed");
+      const message = err.response?.data?.msg;
+      if (message === "Account already exists. Please login.") {
+        alert(message);
+        navigate("/login");
+      } else {
+        alert(message || "Signup failed");
+      }
     }
   };
 
