@@ -14,7 +14,8 @@ import Snowfall from "react-snowfall";
 
 
 function Dashboard() {
-  const { user } = useContext(AuthContext);
+  //const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [balance, setBalance] = useState(user?.balance || 0);
@@ -27,10 +28,19 @@ function Dashboard() {
   const [totalSpent, setTotalSpent] = useState(null);
   const [showSummary, setShowSummary] = useState(false);
 
+  // useEffect(() => {
+  //   if (!user) navigate("/");
+  //   else fetchExpenses();
+  // }, [user]);
+
+  
+
   useEffect(() => {
-    if (!user) navigate("/");
-    else fetchExpenses();
-  }, [user]);
+    if (!loading) {
+      if (!user) navigate("/");
+      else fetchExpenses();
+    }
+  }, [user, loading]);
 
   const fetchExpenses = async () => {
     try {
