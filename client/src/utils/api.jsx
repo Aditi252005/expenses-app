@@ -3,6 +3,7 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: "https://expenses-app-2vb4.onrender.com",
+  // baseURL: "http://localhost:5000",
   
 });
 
