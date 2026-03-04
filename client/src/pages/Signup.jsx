@@ -12,10 +12,26 @@ function Signup() {
 
   const navigate = useNavigate();
 
+  // const handleSubmit = async (e) => {
+  //   //e.preventDefault();
+  //   //await API.post("api/auth/signup", form);
+  //   try {
+  //     await API.post("/api/auth/signup", form);
+  //   } catch (err) {
+  //     alert(err.response.data.msg);
+  //   }
+  //   navigate("/login");
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await API.post("api/auth/signup", form);
-    navigate("/login");
+
+    try {
+      await API.post("/api/auth/signup", form);
+      alert("Account created successfully!");
+      navigate("/login");
+    } catch (err) {
+      alert(err.response?.data?.msg || "Signup failed");
+    }
   };
 
   return (

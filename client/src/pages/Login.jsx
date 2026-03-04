@@ -13,8 +13,11 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("/api/auth/login", { email, password });
-      login(res.data);
+      const res = await API.post("/api/auth/login", formData);
+
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
       navigate("/dashboard");
     } catch (err) {
       alert("Invalid credentials 💔");
