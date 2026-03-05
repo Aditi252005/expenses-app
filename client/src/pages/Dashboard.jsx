@@ -61,9 +61,9 @@ function Dashboard() {
 
       setExpenses(res.data);
 
-      if (res.data.length > 0) {
-        setBalance(res.data[0].currentBalance);
-      }
+      // if (res.data.length > 0) {
+      //   setBalance(res.data[0].currentBalance);
+      // }
 
     } catch (err) {
       console.log(err);

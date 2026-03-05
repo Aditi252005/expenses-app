@@ -40,7 +40,7 @@ router.post("/", auth, async (req, res) => {
       return res.status(404).json({ msg: "User not found" });
     }
 
-    const previousBalance = user.balance;
+    const previousBalance = user.balance || 0;
 
     const currentBalance =
       type === "expense"
@@ -59,7 +59,6 @@ router.post("/", auth, async (req, res) => {
 
     user.balance = currentBalance;
     await user.save();
-
     res.json({ expense, previousBalance, currentBalance });
 
   } catch (err) {
