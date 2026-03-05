@@ -23,7 +23,7 @@ router.get("/", auth, async (req, res) => {
 router.post("/", auth, async (req, res) => {
   try {
     const { title, amount, type, date } = req.body;
-
+    const amountNum=Number(amount);
     const today = new Date();
     const selectedDate = new Date(date);
 
@@ -39,16 +39,16 @@ router.post("/", auth, async (req, res) => {
       return res.status(404).json({ msg: "User not found" });
     }
 
-    const previousBalance = user.balance || 0;
+    const previousBalance = user.balance;
 
     const currentBalance =
       type === "expense"
-        ? previousBalance - amount
-        : previousBalance + amount;
+        ? previousBalance - amountNum
+        : previousBalance + amountNum;
 
     const expense = await Expense.create({
       title,
-      amount,
+      amountNum,
       type,
       date,
       previousBalance,
@@ -76,7 +76,7 @@ router.get("/summary", auth, async (req, res) => {
     const result = await Expense.aggregate([
       {
         $match: {
-          userId: req.user,
+          userId: new mongoose.Types.ObjectId(req.user),
           type: "expense",
           date: {
             $gte: new Date(start),

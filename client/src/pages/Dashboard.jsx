@@ -47,10 +47,24 @@ function Dashboard() {
   }, [user, loading]);
   
 
+  // const fetchExpenses = async () => {
+  //   try {
+  //     const res = await API.get("/api/expense");
+  //     setExpenses(res.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   const fetchExpenses = async () => {
     try {
       const res = await API.get("/api/expense");
+
       setExpenses(res.data);
+
+      if (res.data.length > 0) {
+        setBalance(res.data[0].currentBalance);
+      }
+
     } catch (err) {
       console.log(err);
     }
