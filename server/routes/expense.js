@@ -21,6 +21,7 @@ router.get("/", auth, async (req, res) => {
 
 // Add Expense
 router.post("/", auth, async (req, res) => {
+  
   try {
     const { title, amount, type, date } = req.body;
     const amountNum=Number(amount);
@@ -48,7 +49,7 @@ router.post("/", auth, async (req, res) => {
 
     const expense = await Expense.create({
       title,
-      amountNum,
+      amount:amountNum,
       type,
       date,
       previousBalance,
@@ -91,7 +92,7 @@ router.get("/summary", auth, async (req, res) => {
         }
       }
     ]);
-
+      
     res.json({
       totalSpent: result[0]?.totalSpent || 0
     });

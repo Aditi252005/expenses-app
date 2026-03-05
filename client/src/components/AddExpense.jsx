@@ -28,7 +28,7 @@ function AddExpense({ close, refresh, setBalance }) {
       // console.log(err.response?.data);   // 👈 important
       // alert(err.response?.data?.msg || "Failed to add transaction ❌");
       console.log(err);
-      alert("nai ho ra");
+      alert(err.response?.data?.msg);
     }
   };
 
@@ -53,6 +53,7 @@ function AddExpense({ close, refresh, setBalance }) {
             <label>Amount</label>
             <input
               type="number"
+              //value={form.amount}
               onChange={(e) =>
                 setForm({ ...form, amount: Number(e.target.value) })
               }
