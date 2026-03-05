@@ -18,7 +18,7 @@ function Dashboard() {
   const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [balance, setBalance] = useState(user?.balance || 0);
+  const [balance, setBalance] = useState(0);
   const [expenses, setExpenses] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
@@ -33,7 +33,11 @@ function Dashboard() {
   //   else fetchExpenses();
   // }, [user]);
 
-  
+  useEffect(() => {
+    if (user) {
+      setBalance(user.balance);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!loading) {
@@ -41,6 +45,7 @@ function Dashboard() {
       else fetchExpenses();
     }
   }, [user, loading]);
+  
 
   const fetchExpenses = async () => {
     try {

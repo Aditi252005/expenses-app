@@ -7,16 +7,29 @@ function AddExpense({ close, refresh, setBalance }) {
     title: "",
     amount: "",
     type: "expense",
-    date: ""
+    date: ""   
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!form.title || !form.amount || !form.date) {
+      alert("Please fill all fields");
+      return;
+    }
+    try {
 
-    const res = await API.post("/api/expense", form);
-    setBalance(res.data.currentBalance);
-    refresh();
-    close();
+      const res = await API.post("/api/expense", form);
+
+      setBalance(res.data.currentBalance);
+      refresh();
+      close();
+
+    } catch (err) {
+      // console.log(err.response?.data);   // 👈 important
+      // alert(err.response?.data?.msg || "Failed to add transaction ❌");
+      console.log(err);
+      alert("nai ho ra");
+    }
   };
 
   return (
