@@ -29,7 +29,7 @@ Database- MongoDB
 Other Tools- JWT Authentication, RESTful APIs
 
 ---
-🌐 Live Demo- https://your-deployed-link.com](https://expenses-app-nine-eta.vercel.app/
+🌐 Live Demo- https://expenses-app-nine-eta.vercel.app/
 
 ---
 📌 Future Improvements
