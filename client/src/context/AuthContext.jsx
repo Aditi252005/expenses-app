@@ -75,10 +75,16 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = (userData) => {
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
+  // const login = (userData) => {
+  //   localStorage.setItem("user", JSON.stringify(userData));
+  //   setUser(userData);
+  // };
+  const login = (data) => {
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    setUser(data.user);
   };
+
 
   const logout = () => {
     localStorage.removeItem("user");

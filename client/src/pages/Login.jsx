@@ -19,8 +19,10 @@ function Login() {
       });
     
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      // localStorage.setItem("token", res.data.token);
+      // localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      login(res.data);
 
       navigate("/dashboard");
     } catch (err) {
