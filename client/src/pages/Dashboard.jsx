@@ -202,6 +202,16 @@ function Dashboard() {
 
       <Calculator />
 
+      <footer style={{
+        marginTop: "30px",
+        padding: "10px",
+        fontSize: "12px",
+        color: "#888",
+        textAlign: "center"
+      }}>
+        If the balance appears incorrect, try logging out and logging in again.
+      </footer>
+
     </div>
   </div>
   );
