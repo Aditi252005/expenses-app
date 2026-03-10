@@ -5,48 +5,19 @@ const auth = require("../middleware/auth");
 const mongoose = require("mongoose");
 
 // Get All Expenses
-
-// router.get("/", auth, async (req, res) => {
-//   try {
-//     const expenses = await Expense.find({
-//       userId: req.user,
-//     }).sort({ date: -1 });
-
-//     res.json(expenses);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ msg: "Server error" });
-//   }
-// });
 router.get("/", auth, async (req, res) => {
   try {
-    const expenses = await Expense.find({ userId: req.user })
-      .sort({ date: 1 });
+    const expenses = await Expense.find({
+      userId: req.user,
+    }).sort({ date: -1 });
 
-    let balance = 0;
-
-    const recalculated = expenses.map((exp) => {
-      const previousBalance = balance;
-
-      if (exp.type === "expense") {
-        balance -= exp.amount;
-      } else {
-        balance += exp.amount;
-      }
-
-      return {
-        ...exp._doc,
-        previousBalance,
-        currentBalance: balance,
-      };
-    });
-
-    res.json(recalculated);
+    res.json(expenses);
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server error" });
   }
 });
+
 
 // Add Expense
 router.post("/", auth, async (req, res) => {
