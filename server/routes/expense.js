@@ -20,11 +20,62 @@ router.get("/", auth, async (req, res) => {
 
 
 // Add Expense
-router.post("/", auth, async (req, res) => {
+// router.post("/", auth, async (req, res) => {
   
+//   try {
+//     const { title, amount, type, date } = req.body;
+//     const amountNum=Number(amount);
+//     const today = new Date();
+//     const selectedDate = new Date(date);
+
+//     if (selectedDate > today) {
+//       return res.status(400).json({
+//         msg: "Cannot add future date transaction",
+//       });
+//     }
+
+//     const user = await User.findById(req.user);
+
+//     if (!user) {
+//       return res.status(404).json({ msg: "User not found" });
+//     }
+
+//     const previousBalance = user.balance || 0;
+
+//     const currentBalance =
+//       type === "expense"
+//         ? previousBalance - amountNum
+//         : previousBalance + amountNum;
+
+//     const expense = await Expense.create({
+//       title,
+//       amount:amountNum,
+//       type,
+//       date,
+//       previousBalance,
+//       currentBalance,
+//       userId: user._id,
+//     });
+
+//     user.balance = currentBalance;
+//     await user.save();
+//     res.json({ expense, previousBalance, currentBalance });
+
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ msg: "Server error" });
+//   }
+// });
+router.post("/", auth, async (req, res) => {
   try {
     const { title, amount, type, date } = req.body;
-    const amountNum=Number(amount);
+
+    const amountNum = Number(amount);
+
+    if (isNaN(amountNum)) {
+      return res.status(400).json({ msg: "Invalid amount" });
+    }
+
     const today = new Date();
     const selectedDate = new Date(date);
 
@@ -34,22 +85,20 @@ router.post("/", auth, async (req, res) => {
       });
     }
 
-    const user = await User.findById(req.user);
+    const updateAmount = type === "expense" ? -amountNum : amountNum;
 
-    if (!user) {
-      return res.status(404).json({ msg: "User not found" });
-    }
+    const user = await User.findByIdAndUpdate(
+      req.user,
+      { $inc: { balance: updateAmount } },
+      { new: true }
+    );
 
-    const previousBalance = user.balance || 0;
-
-    const currentBalance =
-      type === "expense"
-        ? previousBalance - amountNum
-        : previousBalance + amountNum;
+    const previousBalance = user.balance - updateAmount;
+    const currentBalance = user.balance;
 
     const expense = await Expense.create({
       title,
-      amount:amountNum,
+      amount: amountNum,
       type,
       date,
       previousBalance,
@@ -57,8 +106,6 @@ router.post("/", auth, async (req, res) => {
       userId: user._id,
     });
 
-    user.balance = currentBalance;
-    await user.save();
     res.json({ expense, previousBalance, currentBalance });
 
   } catch (err) {
