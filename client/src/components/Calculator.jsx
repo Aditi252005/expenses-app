@@ -11,7 +11,12 @@ function Calculator() {
 
   const calculate = () => {
     try {
-      // safer than raw eval in real apps, but fine for demo
+      // Only ever evaluates characters from the calculator's own button set
+      // (digits and + - * / .), never arbitrary user text, so this is safe.
+      if (!/^[0-9+\-*/.]*$/.test(input)) {
+        setInput("Error");
+        return;
+      }
       const result = Function('"use strict";return (' + input + ")")();
       setInput(String(result));
     } catch {
@@ -26,10 +31,7 @@ function Calculator() {
   return (
     <>
       {/* Floating Button */}
-      <button
-        className={styles.floatingBtn}
-        onClick={() => setShow(true)}
-      >
+      <button className={styles.floatingBtn} onClick={() => setShow(true)}>
         🧮
       </button>
 
@@ -40,28 +42,22 @@ function Calculator() {
             <div className={styles.display}>{input || "0"}</div>
 
             <div className={styles.buttons}>
-              {["7","8","9","/","4","5","6","*","1","2","3","-","0",".","=","+"].map((btn) => (
-                <button
-                  key={btn}
-                  onClick={() =>
-                    btn === "=" ? calculate() : handleClick(btn)
-                  }
-                >
-                  {btn}
-                </button>
-              ))}
-              <button
-                className={styles.clearBtn}
-                onClick={clear}
-              >
+              {["7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "=", "+"].map(
+                (btn) => (
+                  <button
+                    key={btn}
+                    onClick={() => (btn === "=" ? calculate() : handleClick(btn))}
+                  >
+                    {btn}
+                  </button>
+                )
+              )}
+              <button className={styles.clearBtn} onClick={clear}>
                 Clear
               </button>
             </div>
 
-            <button
-              className={styles.close}
-              onClick={() => setShow(false)}
-            >
+            <button className={styles.close} onClick={() => setShow(false)}>
               Close
             </button>
           </div>

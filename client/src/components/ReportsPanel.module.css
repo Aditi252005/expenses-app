@@ -1,0 +1,155 @@
+.panel {
+  margin-bottom: 25px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  font-family: "Poppins", sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header h3 {
+  margin: 0;
+  color: #555;
+}
+
+.closeBtn {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  color: #888;
+  transition: 0.2s;
+}
+
+.closeBtn:hover {
+  color: #ff6b81;
+}
+
+.sectionTitle {
+  font-size: 13px;
+  color: #888;
+  margin: 18px 0 10px;
+}
+
+.sectionTitle:first-of-type {
+  margin-top: 0;
+}
+
+/* Monthly bar chart */
+.monthlyChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 120px;
+  padding: 0 4px;
+}
+
+.monthBarGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 2px;
+}
+
+.barPair {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 100%;
+}
+
+.bar {
+  width: 6px;
+  border-radius: 4px 4px 0 0;
+  min-height: 2px;
+  transition: height 0.3s ease;
+}
+
+.barIncome {
+  background: linear-gradient(180deg, #a8e6cf, #2ed573);
+}
+
+.barExpense {
+  background: linear-gradient(180deg, #ffb8b8, #ff6b81);
+}
+
+.monthLabel {
+  font-size: 10px;
+  color: #999;
+  margin-top: 4px;
+}
+
+.legend {
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+  color: #777;
+  margin-top: 10px;
+}
+
+.legendDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+/* Category breakdown */
+.categoryRow {
+  margin-bottom: 10px;
+}
+
+.categoryLabelRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.categoryTrack {
+  width: 100%;
+  height: 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.categoryFill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+}
+
+.empty {
+  font-size: 13px;
+  color: #999;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* Yearly totals */
+.yearlyRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #555;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.yearlyRow:last-child {
+  border-bottom: none;
+}

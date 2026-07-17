@@ -1,14 +1,20 @@
 import { useState } from "react";
-import API from "../utils/api";
 import styles from "./AddExpense.module.css";
+import { categoriesForType } from "../utils/categories";
 
-function AddExpense({ close, refresh, setBalance }) {
+function AddExpense({ close, onAdd }) {
   const [form, setForm] = useState({
     title: "",
     amount: "",
     type: "expense",
-    date: ""   
+    category: categoriesForType("expense")[0],
+    date: "",
   });
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleTypeChange = (type) => {
+    setForm({ ...form, type, category: categoriesForType(type)[0] });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,19 +22,15 @@ function AddExpense({ close, refresh, setBalance }) {
       alert("Please fill all fields");
       return;
     }
+
+    setSubmitting(true);
     try {
-
-      const res = await API.post("/api/expense", form);
-
-      setBalance(res.data.currentBalance);
-      refresh();
+      await onAdd({ ...form, amount: Number(form.amount) });
       close();
-
     } catch (err) {
-      // console.log(err.response?.data);   // 👈 important
-      // alert(err.response?.data?.msg || "Failed to add transaction ❌");
-      console.log(err);
-      alert(err.response?.data?.msg);
+      alert(err.response?.data?.msg || "Failed to add transaction ❌");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -38,11 +40,11 @@ function AddExpense({ close, refresh, setBalance }) {
         <h2 className={styles.title}>Add Transaction 💖</h2>
 
         <form onSubmit={handleSubmit}>
-
           <div className={styles.inputGroup}>
             <label>Title</label>
             <input
               type="text"
+              value={form.title}
               onChange={(e) =>
                 setForm({ ...form, title: e.target.value })
               }
@@ -53,9 +55,11 @@ function AddExpense({ close, refresh, setBalance }) {
             <label>Amount</label>
             <input
               type="number"
-              //value={form.amount}
+              min="0.01"
+              step="0.01"
+              value={form.amount}
               onChange={(e) =>
-                setForm({ ...form, amount: Number(e.target.value) })
+                setForm({ ...form, amount: e.target.value })
               }
             />
           </div>
@@ -63,12 +67,27 @@ function AddExpense({ close, refresh, setBalance }) {
           <div className={styles.inputGroup}>
             <label>Type</label>
             <select
-              onChange={(e) =>
-                setForm({ ...form, type: e.target.value })
-              }
+              value={form.type}
+              onChange={(e) => handleTypeChange(e.target.value)}
             >
               <option value="expense">Expense</option>
               <option value="income">Income</option>
+            </select>
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label>Category</label>
+            <select
+              value={form.category}
+              onChange={(e) =>
+                setForm({ ...form, category: e.target.value })
+              }
+            >
+              {categoriesForType(form.type).map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -77,6 +96,7 @@ function AddExpense({ close, refresh, setBalance }) {
             <input
               type="date"
               max={new Date().toISOString().split("T")[0]}
+              value={form.date}
               onChange={(e) =>
                 setForm({ ...form, date: e.target.value })
               }
@@ -87,8 +107,9 @@ function AddExpense({ close, refresh, setBalance }) {
             <button
               type="submit"
               className={styles.primaryBtn}
+              disabled={submitting}
             >
-              Add 💸
+              {submitting ? "Adding..." : "Add 💸"}
             </button>
 
             <button
@@ -99,7 +120,6 @@ function AddExpense({ close, refresh, setBalance }) {
               Cancel
             </button>
           </div>
-
         </form>
       </div>
     </div>

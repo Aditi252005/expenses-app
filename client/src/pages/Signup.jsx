@@ -1,32 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../utils/api";
+import { signup as signupRequest } from "../api/auth";
 import styles from "./Signup.module.css";
 
 function Signup() {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
-  // const handleSubmit = async (e) => {
-  //   //e.preventDefault();
-  //   //await API.post("api/auth/signup", form);
-  //   try {
-  //     await API.post("/api/auth/signup", form);
-  //   } catch (err) {
-  //     alert(err.response.data.msg);
-  //   }
-  //   navigate("/login");
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
 
     try {
-      await API.post("/api/auth/signup", form);
+      await signupRequest(form);
       alert("Account created successfully!");
       navigate("/login");
     } catch (err) {
@@ -37,6 +29,8 @@ function Signup() {
       } else {
         alert(message || "Signup failed");
       }
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -50,6 +44,7 @@ function Signup() {
             <label>Name</label>
             <input
               type="text"
+              value={form.name}
               onChange={(e) =>
                 setForm({ ...form, name: e.target.value })
               }
@@ -60,6 +55,7 @@ function Signup() {
             <label>Email</label>
             <input
               type="email"
+              value={form.email}
               onChange={(e) =>
                 setForm({ ...form, email: e.target.value })
               }
@@ -70,14 +66,15 @@ function Signup() {
             <label>Password</label>
             <input
               type="password"
+              value={form.password}
               onChange={(e) =>
                 setForm({ ...form, password: e.target.value })
               }
             />
           </div>
 
-          <button className={styles.button} type="submit">
-            Sign Up
+          <button className={styles.button} type="submit" disabled={submitting}>
+            {submitting ? "Creating..." : "Sign Up"}
           </button>
         </form>
 

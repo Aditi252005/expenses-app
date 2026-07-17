@@ -1,32 +1,27 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../utils/api";
-import { AuthContext } from "../context/AuthContext";
+import { login as loginRequest } from "../api/auth";
+import { useAuth } from "../hooks/useAuth";
 import styles from "./Login.module.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useContext(AuthContext);
+  const [submitting, setSubmitting] = useState(false);
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     try {
-      const res = await API.post("/api/auth/login", {
-        email,
-        password
-      });
-    
-
-      // localStorage.setItem("token", res.data.token);
-      // localStorage.setItem("user", JSON.stringify(res.data.user));
-
+      const res = await loginRequest({ email, password });
       login(res.data);
-
       navigate("/dashboard");
     } catch (err) {
-      alert("Invalid credentials 💔");
+      alert(err.response?.data?.msg || "Invalid credentials 💔");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -43,6 +38,7 @@ function Login() {
             <label>Email</label>
             <input
               type="email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -51,12 +47,13 @@ function Login() {
             <label>Password</label>
             <input
               type="password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          <button className={styles.button} type="submit">
-            Login
+          <button className={styles.button} type="submit" disabled={submitting}>
+            {submitting ? "Logging in..." : "Login"}
           </button>
         </form>
 

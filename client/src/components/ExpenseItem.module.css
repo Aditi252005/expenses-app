@@ -34,6 +34,17 @@
   color: #888;
 }
 
+.category {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #a0729a;
+  background: rgba(251, 194, 235, 0.35);
+  border-radius: 10px;
+  padding: 2px 9px;
+  width: fit-content;
+}
+
 /* Right side */
 .right {
   display: flex;
